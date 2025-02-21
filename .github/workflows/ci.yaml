@@ -1,9 +1,12 @@
 name: NodeJs Project
 
-#on:
-  #push:
-    #branches:
-      #- main
+on:
+  push:
+    branches:
+      - main
+
+env:
+    version: $(( $(cat version.txt) + 1 ))    
 
 jobs:
   build:
@@ -71,5 +74,38 @@ jobs:
             git push --set-upstream origin snyk-report
   
         env:
-            GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  # Used for pushing the r     
-       
+            GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+
+  build_docker_image_and_push_to_ Docker_Hub :
+
+    runs-on: ubuntu-latest
+    needs: build  # Ensure the build job runs first
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t mani1765/nodejs-project:${{env.VERSION}} .
+
+      - name: tag Docker image
+        run: docker tag mani1765/nodejs-project mani1765/nodejs-project:${{env.VERSION}}  
+
+      - name: Push Docker image to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}   
+
+      - name: Push Docker image to Docker Hub
+        run: docker push mani1765/nodejs-project:${{env.VERSION}}  
+
+      - name: Push Docker image to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}   
+
+      - name: pull docker image from docker hub
+        run: docker pull mani1765/nodejs-project:${{env.VERSION}}  
+
+      - name : scan docker image with trivy
+        run: trivy mani1765/nodejs-project:${{env.VERSION}} --exit-code 0 --severity HIGH,CRITICAL  
+        
+        
+
+  
