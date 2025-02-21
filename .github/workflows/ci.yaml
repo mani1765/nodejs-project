@@ -84,7 +84,7 @@ jobs:
         run: docker build -t mani1765/nodejs-project:${{ env.VERSION }} .
 
       - name: Tag Docker image
-        run: docker tag mani1765/nodejs-project mani1765/nodejs-project:${{ env.VERSION }}
+        run: docker tag mani1765/nodejs-project:${{ env.VERSION }} mani1765/nodejs-project:${{ env.VERSION }}
 
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
