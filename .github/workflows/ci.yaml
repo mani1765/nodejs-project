@@ -1,6 +1,6 @@
 name: NodeJs Project
 
-#:
+#on:
   #push:
     #branches:
       #- main
