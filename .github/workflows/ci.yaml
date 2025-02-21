@@ -6,6 +6,21 @@ on:
       - main
 
 jobs:
+
+  sonarqube_sast_scan :
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name : Checkout code
+        uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+      - name: Sonar Qube Scan 
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
   build:
     runs-on: ubuntu-latest
     steps:
