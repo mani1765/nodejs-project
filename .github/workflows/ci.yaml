@@ -65,7 +65,7 @@ jobs:
             git config --global user.email "gmanikanta.0528@gmail.com"
             git checkout -b snyk-report
             mkdir -p snyk-reports
-            mv snyk-report.json snyk-reports/
+            mv snyk.sarif snyk-reports/
             git add snyk-reports/snyk.sarif 
             git commit -m "Add Snyk vulnerability report"
             git push --set-upstream origin snyk-report
