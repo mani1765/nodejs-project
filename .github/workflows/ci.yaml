@@ -57,18 +57,17 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk.sarif
+          args: --sarif-file-output=snyk.sarif 
 
       - name: Commit and push Snyk report to repository
         run: |
           git config --global user.name "mani1765"
           git config --global user.email "gmanikanta.0528@gmail.com"
-          git checkout -b snyk-report
           mkdir -p snyk-reports
           mv snyk.sarif snyk-reports/
           git add snyk-reports/snyk.sarif
           git commit -m "Add Snyk vulnerability report"
-          git push --set-upstream origin snyk-report
+          git push origin HEAD 
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
 
