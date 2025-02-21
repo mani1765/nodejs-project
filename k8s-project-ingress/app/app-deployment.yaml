@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: node-app
-          image: mani1765/nodejs-project:2
+          image: mani1765/nodejs-project:3
           envFrom:
             - configMapRef:
                 name: app-config
