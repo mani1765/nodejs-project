@@ -31,9 +31,34 @@ jobs:
         with:
           fetch-depth: 0  # Keep this if you need full git history for SonarQube
 
-      - name: SonarQube Scan
+      - name: SonarQube Scan # make sure sonar-project.properties is present at root of the project
         uses: sonarsource/sonarqube-scan-action@v2  # Use stable version
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+  snyk_sca_scan:
+    runs-on: ubuntu-latest
+    needs: build  # Ensure the build job runs first
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Snyk Authentication
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk SCA (Software Composition Analysis)
+        run: snyk test --all-projects --json
+
+      - name: Upload Snyk Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: snyk-report
+          path: snyk-report.json        
         
