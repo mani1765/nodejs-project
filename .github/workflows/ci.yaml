@@ -53,11 +53,4 @@ jobs:
         continue-on-error: true 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk.sarif  
-
-      - name: Upload Snyk Report
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif    
-        
+       
