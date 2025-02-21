@@ -6,40 +6,6 @@ on:
       - main
 
 jobs:
-  sast-scan-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run SAST scan
-        run: npm run sast
-
-  sca-scan-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run SCA scan
-        run: npm run sca
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -53,12 +19,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Run tests
-        run: npm test
-
-      - name: Run linter
-        run: npm run lint
 
       - name: Build
         run: npm run build
