@@ -122,6 +122,6 @@ jobs:
           sed -i "s|image: mani1765/nodejs-project:.*$|image: mani1765/nodejs-project:${{ env.VERSION }}|" k8s-project-ingress/app/app-deployment.yaml
           echo ${{ env.VERSION }} > version.txt
           CURRENT_VERSION=$(cat version.txt)    
-          git add k8s-project-inngress/app/app-deployment.yaml version.txt
+          git add k8s-project-ingress/app/app-deployment.yaml version.txt
           git commit -m "Updated deployment yaml and version txt file with nodejs image tag to ${CURRENT_VERSION}"
           git push  
