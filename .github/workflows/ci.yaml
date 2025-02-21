@@ -53,4 +53,20 @@ jobs:
         continue-on-error: true 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Run Snyk SCA (Software Composition Analysis)
+        run: snyk test --all-projects --json > snyk-report.json  # Output the Snyk report to a file
+  
+      - name: Commit and push Snyk report to repository
+        run: |
+            git config --global user.name "mani1765"
+            git config --global user.email "gmanikanta.0528@gmail.com"
+            git checkout -b snyk-report
+            mkdir -p snyk-reports
+            mv snyk-report.json snyk-reports/
+            git add snyk-reports/snyk-report.json
+            git commit -m "Add Snyk vulnerability report"
+            git push --set-upstream origin snyk-report
+  
+        env:
+            GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  # Used for pushing the r     
        
